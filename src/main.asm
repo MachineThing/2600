@@ -1,6 +1,10 @@
 ; Tell DASM we are using 6502 instructions
 			processor 6502
 
+; Saving these libraries for later!
+			;include "src/lib/vcs.asm"
+			;include "src/lib/macro.asm"
+
 ; 4 kilobyte Atari 2600 cartridges start at f000
 				org $f000
 
