@@ -1,7 +1,5 @@
 *       text=auto
 *.bin   binary
-*.s     text
-*.h     text
+*.asm   text
 
-*.h     diff=assembly
-*.s     diff=assembly
+*.asm   diff=assembly
