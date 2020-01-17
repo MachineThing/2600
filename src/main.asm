@@ -9,12 +9,12 @@
 					org $f000
 ; "start" and "loop" are labels are they are on the left margin
 
-start:		ldx #100
-loop:			dex
-					bne loop
-					jmp start
+start:		ldx #100		; Load 100 into X
+loop:			dex					; Decrement X by one
+					bne loop		; Jump to the "loop" label if X is not 0
+					jmp start		; Jump to the "start" label.
 
-; Skip to address FFFC in the ROM
+; Skip to address FFFC in the ROM, which is the end of a 4K cartridge
 					org $fffc
 						.word start
 						.word start
