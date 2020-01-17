@@ -12,6 +12,7 @@
 start:		ldx #100
 loop:			dex
 					bne loop
+					jmp start
 
 ; Skip to address FFFC in the ROM
 					org $fffc
