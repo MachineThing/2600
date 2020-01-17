@@ -4,4 +4,4 @@
 
 ; 4 kilobyte Atari 2600 cartridges start at f000
   org $f000
-  lda $17
+  lda #$17
