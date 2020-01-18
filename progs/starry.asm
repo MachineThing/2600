@@ -1,7 +1,7 @@
 ; Program name: Starry Night
 ; Author: Mason Fisher
 ; Created: January 17th, 2020
-; Modified: January 17, 2020
+; Modified: January 18th, 2020
 
 ; Tell DASM we are using 6502 instructions
 					processor 6502
@@ -13,25 +13,25 @@
 					org $f000
 ; "start" and "loop" are labels are they are on the left margin
 
-start:		sei
-					cld
-					ldx #$ff
-					txs
+start:		sei						; Disable interrupts
+					cld						; Disable BCD math mode
+					ldx #$ff			; Set X to $FF
+					txs						; Transfer the X regoster to the stack pointer
 
-					ldx #$ff
-					lda #$00
-zeroZP		sta COLUBK ; Set the color of the background to black
-					dex
-					bne zeroZP
+					ldx #$ff			; Set X to $FF
+					lda #$00			; Set A to $FF
+zeroZP		sta COLUBK		; Set the color of the background to black
+					dex						; Decrement X by one
+					bne zeroZP		; Jump to the "zeroZP" label unless X is zero
 
-					lda #$0e
-					sta COLUBK ; Set the color of the background to white
+					lda #$0e			; Set A to $0e
+					sta COLUBK		; Set the color of the background to white
 					lda #$00
-					sta COLUBK ; Set the color of the background to black
+					sta COLUBK		; Set the color of the background to black
 
 					jmp start
 
 ; Skip to address FFFC in the ROM, which is the end of a 4K cartridge
 					org $fffc
-						.word start
-						.word start
+						.word start	; Set reset vector to $fffc
+						.word start	; interrupt vector at $fffe (Unused on the 2600)
