@@ -13,7 +13,6 @@
 					org $f000
 ; "start" and "loop" are labels are they are on the left margin
 
-<<<<<<< HEAD
 start:		sei						; Disable interrupts
 					cld						; Disable BCD math mode
 					ldx #$ff			; Set X to $FF
@@ -29,23 +28,6 @@ zeroZP		sta COLUBK		; Set the color of the background to black
 					sta COLUBK		; Set the color of the background to white
 					lda #$00
 					sta COLUBK		; Set the color of the background to black
-=======
-start:		sei					; Disable interrupts
-					cld					; Disable BCD math mode
-					ldx #$ff		; Set X to $FF
-					txs					; Transfer the X regoster to the stack pointer
-
-					ldx #$ff		; Set X to $FF
-					lda #$00		; Set A to $FF
-zeroZP		sta COLUBK	; Set the color of the background to black
-					dex					; Decrement X by one
-					bne zeroZP	; Jump to the "zeroZP" label unless X is zero
-
-					lda #$0e		; Set
-					sta COLUBK	; Set the color of the background to white
-					lda #$00
-					sta COLUBK	; Set the color of the background to black
->>>>>>> 33fdf6ebbebd0b799bf1eaeddfa51251433d2adc
 
 					jmp start
 
