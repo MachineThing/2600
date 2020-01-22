@@ -14,6 +14,41 @@
 BGColor   equ $81       ; A equate that holds a background color we will use later
 
 start:    CLEAN_START   ; A macro that clears memory and TIA (Television Interface Adaptor)
+NFrame:   lda #2
+          sta VBLANK
+          sta VSYNC
+
+          sta WSYNC
+
+          lda #0
+          sta VSYNC
+
+          ldx #37       ; 37 scanlines
+
+LVBlank:  sta WSYNC
+          dex
+          bne LVBlank
+
+          lda #0
+          sta VBLANK
+
+          ldx #210      ; 210 scanlines (To fully cover the screen, overflows into overscan)
+          ldy BGColor
+LVScan:   sty COLUBK
+          sta WSYNC
+          iny
+          dex
+          bne LVScan
+
+          lda #2
+          sta LVBlank
+          ldx #30
+LVOver:   sta WSYNC
+          dex
+          bne LVOver
+
+          dec BGColor
+          jmp NFrame
 
 ; Skip to address FFFC in the ROM, which is the end of a 4K cartridge
 					org $fffc
