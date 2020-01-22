@@ -3,11 +3,10 @@
 ; Created: January 17th, 2020
 ; Modified: January 22nd, 2020
 
-; Tell DASM we are using 6502 instructions
-					processor 6502
+					processor 6502					; Tell DASM we are using 6502 instructions
 
-					include "lib/vcs.asm"
-					include "lib/macro.asm"
+					include "lib/vcs.asm"		; Atari 2600 library
+					include "lib/macro.asm"	; 2600 macross
 
 ; 4 kilobyte Atari 2600 cartridges start at f000
 					org $f000
