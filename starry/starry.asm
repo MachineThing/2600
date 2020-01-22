@@ -1,13 +1,13 @@
 ; Program name: Starry Night
 ; Author: Mason Fisher
 ; Created: January 17th, 2020
-; Modified: January 18th, 2020
+; Modified: January 22nd, 2020
 
 ; Tell DASM we are using 6502 instructions
 					processor 6502
 
-					include "progs/lib/vcs.asm"
-					include "progs/lib/macro.asm"
+					include "lib/vcs.asm"
+					include "lib/macro.asm"
 
 ; 4 kilobyte Atari 2600 cartridges start at f000
 					org $f000

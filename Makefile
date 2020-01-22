@@ -1,3 +1,3 @@
 asmc=dasm
 main:
-	$(asmc) progs/starry.asm -f3 -v5 -ostarry.bin
+	$(asmc) starry/starry.asm -f3 -v5 -ocompiled/starry.bin
