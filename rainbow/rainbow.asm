@@ -23,7 +23,7 @@ NFrame:   lda #2
           lda #0
           sta VSYNC     ; Turn off Vertical Sync
 
-          ldx #30       ; 37 scanlines (To fully cover the screen)
+          ldx #30       ; 30 scanlines (To fully cover the screen)
 
 LVBlank:  sta WSYNC
           dex
@@ -32,7 +32,7 @@ LVBlank:  sta WSYNC
           lda #0
           sta VBLANK    ; Turn off Vertical Blank
 
-          ldx #231      ; 210 scanlines (To fully cover the screen)
+          ldx #231      ; 231 scanlines (To fully cover the screen)
           ldy BGColor   ; Store $81 into the Y register
 LVScan:   sty COLUBK    ; Make the background the color of the Y register
           sta WSYNC     ; Turn off Wait for SYNC
