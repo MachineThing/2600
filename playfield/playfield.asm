@@ -13,8 +13,7 @@
 					org $f000
 ; "start" and "loop" are labels are they are on the left margin
 
-counter		equ $81
-count2		equ $82
+counter		equ $80
 
 start:		CLEAN_START
 NFrame:		VERTICAL_SYNC
