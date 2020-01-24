@@ -9,7 +9,7 @@
 					include "lib/vcs.asm"		; Atari 2600 library
 					include "lib/macro.asm"	; 2600 macross
 
-SpriteHeight	equ #8
+SpriteHeight	equ #10
 
 					seg.u Variables
 					org $80
@@ -17,8 +17,6 @@ YPos					.byte
 
 					seg Code
 					org $f000
-
-Counter				equ $80
 
 start:		CLEAN_START
 					lda #75
@@ -35,29 +33,55 @@ LVBlank:	sta WSYNC
 					sta RESP0
 
 					ldx #192
+10000001
+LVScan:		txa
+					sec
+					sbc YPos
+					cmp SpriteHeight
+					bcc InSprite
 					lda #0
-					ldy Counter
 
-ScanLoop:	sta WSYNC	; wait for next scanline
-					sta COLUBK	; set the background color
-					sta GRP0	; set sprite 0 pixels
-					adc #1		; increment A to cycle through colors and bitmaps
+InSprite:	tay
+					lda sprDat,Y
+					sta WSYNC
+					sta GRP0
+					lda SprCol,Y
+					sta COLUP0
+
 					dex
-					bne ScanLoop
+					bne LVScan
 
-					stx COLUBK
-					stx GRP0
-				; 30 lines of overscan
-					ldx #30
+				; 29 lines of overscan
+					ldx #29
 LVOver:		sta WSYNC
 					dex
 					bne LVOver
 
 				; Cycle the sprite colors for the next frame
-					inc Counter
-					lda Counter
-					sta COLUP0
 					jmp NFrame
+
+; The sprite is flipped as that's how it works in the routine
+
+sprDat:		.byte #0        ; zero padding, also clears register
+        	.byte #%11111111
+        	.byte #%10000001
+        	.byte #%10111101
+        	.byte #%10100101
+        	.byte #%10000001
+        	.byte #%10100101
+        	.byte #%10000001
+        	.byte #%11111111
+
+; Cat-head color data
+SprCol:		.byte #0        ; unused (for now)
+        	.byte #$90
+        	.byte #$92
+        	.byte #$94
+        	.byte #$96
+        	.byte #$98			; A friend picked this color :)
+        	.byte #$9A
+        	.byte #$9C
+        	.byte #$9E
 
 ; Skip to address FFFC in the ROM, which is the end of a 4K cartridge
 					org $fffc
