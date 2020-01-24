@@ -29,24 +29,24 @@ LVBlank:	sta WSYNC
 					dex
 					bne LVBlank
 
-					SLEEP 35
-					sta RESP0
+					SLEEP 35								; Set sprite position
+					sta RESP0								; Sprite X position
 
 					ldx #192
-10000001
+
 LVScan:		txa
 					sec
 					sbc YPos
-					cmp SpriteHeight
+					cmp SpriteHeight				; If the SprightHeight is greater than the Y position
 					bcc InSprite
 					lda #0
 
-InSprite:	tay
-					lda sprDat,Y
-					sta WSYNC
-					sta GRP0
-					lda SprCol,Y
-					sta COLUP0
+InSprite:	tay											; Transfer the A register's value to the Y register
+					lda sprDat,Y						; Load bitmap data
+					sta WSYNC								; Wait for sync
+					sta GRP0								; Set the sprite bitmap
+					lda SprCol,Y						; Load color data
+					sta COLUP0							; Set the sprite color
 
 					dex
 					bne LVScan
