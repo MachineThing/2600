@@ -9,13 +9,21 @@
 					include "lib/vcs.asm"		; Atari 2600 library
 					include "lib/macro.asm"	; 2600 macross
 
-; 4 kilobyte Atari 2600 cartridges start at f000
-					org $f000
-; "start" and "loop" are labels are they are on the left margin
+SpriteHeight	equ #8
 
-Counter	equ $80
+					seg.u Variables
+					org $80
+YPos					.byte
+
+					seg Code
+					org $f000
+
+Counter				equ $80
 
 start:		CLEAN_START
+					lda #75
+					sta YPos
+
 NFrame:		VERTICAL_SYNC
 					ldx #36
 
@@ -23,10 +31,8 @@ LVBlank:	sta WSYNC
 					dex
 					bne LVBlank
 
-					SLEEP 20
+					SLEEP 35
 					sta RESP0
-					SLEEP 20
-					sta RESP1
 
 					ldx #192
 					lda #0
@@ -35,54 +41,12 @@ LVBlank:	sta WSYNC
 ScanLoop:	sta WSYNC	; wait for next scanline
 					sta COLUBK	; set the background color
 					sta GRP0	; set sprite 0 pixels
-					sta GRP1	; set sprite 1 pixels
-					adc #1		; increment A to cycle through colors and bitmaps
-					dex
-					bne ScanLoop
-
-					processor 6502					; Tell DASM we are using 6502 instructions
-
-					include "lib/vcs.asm"		; Atari 2600 library
-					include "lib/macro.asm"	; 2600 macross
-
-; 4 kilobyte Atari 2600 cartridges start at f000
-					org $f000
-; "start" and "loop" are labels are they are on the left margin
-
-Counter	equ $80
-ALooper	equ $81
-
-start:		CLEAN_START
-NFrame:		VERTICAL_SYNC
-					ldx #36
-
-LVBlank:	sta WSYNC
-					dex
-					bne LVBlank
-
-					SLEEP 20
-					sta RESP0
-					SLEEP 20
-					sta RESP1
-
-					ldx #192
-					lda #0
-					ldy Counter
-
-ScanLoop:	sta WSYNC	; wait for nex(really crappy) test of spritest scanline
-					sta COLUBK	; set the background color
-					sta ALooper
-					lda sprData
-					sta GRP0	; set sprite 0 pixels
-					lda ALooper
-					sta GRP1	; set sprite 1 pixels
 					adc #1		; increment A to cycle through colors and bitmaps
 					dex
 					bne ScanLoop
 
 					stx COLUBK
 					stx GRP0
-					stx GRP1
 				; 30 lines of overscan
 					ldx #30
 LVOver:		sta WSYNC
@@ -93,38 +57,6 @@ LVOver:		sta WSYNC
 					inc Counter
 					lda Counter
 					sta COLUP0
-					sta COLUP1
-					jmp NFrame
-
-sprData:	.byte #0 ; zero padding, also clears register
-					.byte #%11111111
-					.byte #%10000001
-					.byte #%10100101
-					.byte #%10000001
-					.byte #%10100101
-					.byte #%10111101
-					.byte #%10000001
-					.byte #%11111111
-
-; Skip to address FFFC in the ROM, which is the end of a 4K cartridge
-					org $fffc
-						.word start	; Set reset vector to $fffc
-						.word start	; interrupt vector at $fffe (Unused on the 2600)
-
-					stx COLUBK
-					stx GRP0
-					stx GRP1
-				; 30 lines of overscan
-					ldx #30
-LVOver:		sta WSYNC
-					dex
-					bne LVOver
-
-				; Cycle the sprite colors for the next frame
-					inc Counter
-					lda Counter
-					sta COLUP0
-					sta COLUP1
 					jmp NFrame
 
 ; Skip to address FFFC in the ROM, which is the end of a 4K cartridge
