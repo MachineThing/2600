@@ -1,7 +1,8 @@
 asmc=dasm
+flags=-f3 -v5 -o
 main:
-	$(asmc) starry/starry.asm -f3 -v5 -ocompiled/starry.bin
-	$(asmc) rainbow/rainbow.asm -f3 -v5 -ocompiled/rainbow.bin
-	$(asmc) playfield/playfield.asm -f3 -v5 -ocompiled/playfield.bin
-	$(asmc) sprites/sprites.asm -f3 -v5 -ocompiled/sprites.bin
-	$(asmc) sprites2/sprites2.asm -f3 -v5 -ocompiled/sprites2.bin
+	$(asmc) starry/starry.asm $(flags)compiled/starry.bin
+	$(asmc) rainbow/rainbow.asm $(flags)compiled/rainbow.bin
+	$(asmc) playfield/playfield.asm $(flags)compiled/playfield.bin
+	$(asmc) sprites/sprites.asm $(flags)compiled/sprites.bin
+	$(asmc) sprites2/sprites2.asm $(flags)compiled/sprites2.bin
