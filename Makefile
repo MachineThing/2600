@@ -7,3 +7,4 @@ main:
 	$(asmc) sprites/sprites.asm $(flags)compiled/sprites.bin
 	$(asmc) sprites2/sprites2.asm $(flags)compiled/sprites2.bin
 	$(asmc) setHorizPos/setHorizPos.asm $(flags)compiled/setHorizPos.bin
+	$(asmc) joysticks/joysticks.asm $(flags)compiled/joysticks.bin
