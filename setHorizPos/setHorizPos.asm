@@ -1,6 +1,6 @@
 ; Program name: setHorizPos: because positioning is not enough
 ; Author: Mason Fisher
-; Created: January 24rd, 2020
+; Created: January 24th, 2020
 ; Modified: January 24th, 2020
 ; Description: Sprites but they are not stripes.
 
