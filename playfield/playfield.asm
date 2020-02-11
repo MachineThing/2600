@@ -1,7 +1,7 @@
 ; Program name: Playfield time!
 ; Author: Mason Fisher
 ; Created: January 23rd, 2020
-; Modified: January 23rd, 2020
+; Modified: Febuary 11th, 2020
 ; Description: A (really crappy) test of playfields
 
 					processor 6502					; Tell DASM we are using 6502 instructions
@@ -18,7 +18,7 @@ counter		equ $80
 start:		CLEAN_START
 NFrame:		VERTICAL_SYNC
 
-					ldx #192
+					ldx #255
 					lda #0
 					ldy counter
 
@@ -35,6 +35,11 @@ lvscan:		sta WSYNC
 					bne lvscan
 
 					inc counter
+
+					lda #66
+					sta WSYNC
+					sta WSYNC
+					sta WSYNC
 					jmp NFrame
 
 ; Skip to address FFFC in the ROM, which is the end of a 4K cartridge

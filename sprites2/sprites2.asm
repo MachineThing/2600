@@ -1,7 +1,7 @@
 ; Program name: Sprites 2: The sequel
 ; Author: Mason Fisher
 ; Created: January 24rd, 2020
-; Modified: January 24th, 2020
+; Modified: Febuary 11th, 2020
 ; Description: Sprites but they are not stripes.
 
 					processor 6502					; Tell DASM we are using 6502 instructions
@@ -23,7 +23,7 @@ start:		CLEAN_START
 					sta YPos
 
 NFrame:		VERTICAL_SYNC
-					ldx #36
+					ldx #37
 
 LVBlank:	sta WSYNC
 					dex
