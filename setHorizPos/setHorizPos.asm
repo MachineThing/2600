@@ -1,7 +1,7 @@
 ; Program name: setHorizPos: because positioning is not enough
 ; Author: Mason Fisher
-; Created: January 24th, 2020
-; Modified: January 24th, 2020
+; Created: Febuary 10th, 2020
+; Modified: Febuary 12th, 2020
 ; Description: Sprites but they are not stripes.
 
 					processor 6502					; Tell DASM we are using 6502 instructions

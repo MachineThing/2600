@@ -23,9 +23,9 @@ NFrame:		VERTICAL_SYNC
 					ldy counter
 
 lvscan:		sta WSYNC
-					sta PF0
-					sta PF1
-					sta PF2
+					sta PF0			; First 4 bits of the playfield
+					sta PF1			; Second 8 bits of the playfield
+					sta PF2			; Last 8 bits of the playfield
 
 					sta COLUBK
 					sty COLUPF
