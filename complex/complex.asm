@@ -90,8 +90,11 @@ InSprite:	tay											; Transfer the A register's value to the Y register
 					dex
 					bne LVScan
 
-				; 34 lines of overscan
-					ldx #34
+				; 43 lines of overscan, 86 xpos
+					cpx XPos
+					ldx #44
+					bpl LVOver
+					ldx #43
 LVOver:		sta WSYNC
 					dex
 					bne LVOver
