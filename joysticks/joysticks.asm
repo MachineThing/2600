@@ -30,14 +30,34 @@ NFrame:
 					lsr SWCHB
 					bcc start
 					VERTICAL_SYNC
-					ldx #35
+					ldx #30
 
 LVBlank:	sta WSYNC
 					dex
 					bne LVBlank
 
+					; Joystick code goes here
+MoveJoy:	lda #%00010000	; Player 0 up
+					bit SWCHA				; Test that bit
+					bne SkipUp			; Branch to SkipUp label if player is not pushing the joystick up
+					inc YPos				; Increment YPos
 
-					lda XPos
+SkipUp:		lda #%00100000	; Player 0 down
+					bit SWCHA				; Test that bit
+					bne SkipDn			; Branch to SkipUp label if player is not pushing the joystick down
+					dec YPos				; Increment YPos
+
+SkipDn:		lda #%01000000	; Player 0 left
+					bit SWCHA				; Test that bit
+					bne SkipLt			; Branch to SkipUp label if player is not pushing the joystick left
+					dec XPos				; Increment YPos
+
+SkipLt:		lda #%10000000	; Player 0 right
+					bit SWCHA				; Test that bit
+					bne SkipJoy			; Branch to SkipUp label if player is not pushing the joystick right
+					inc XPos				; Increment YPos
+
+SkipJoy:	lda XPos
 					ldx #0
 					jsr SetHorizPos
 					sta WSYNC
@@ -47,7 +67,7 @@ LVBlank:	sta WSYNC
 
 LVScan:		txa
 					sta Tempx
-					lda #$30
+					lda #$26
 					sta COLUBK
 					lda Tempx
 					sec
@@ -66,8 +86,8 @@ InSprite:	tay											; Transfer the A register's value to the Y register
 					dex
 					bne LVScan
 
-				; 29 lines of overscan
-					ldx #29
+				; 34 lines of overscan
+					ldx #34
 LVOver:		sta WSYNC
 					dex
 					bne LVOver
