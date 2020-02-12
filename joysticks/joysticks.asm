@@ -1,8 +1,8 @@
-; Program name: setHorizPos: because positioning is not enough
+; Program name: Joystick time
 ; Author: Mason Fisher
 ; Created: Febuary 11th, 2020
 ; Modified: Febuary 11th, 2020
-; Description: Sprites but they are not stripes.
+; Description: Sprites but now controllable!
 
 					processor 6502					; Tell DASM we are using 6502 instructions
 
