@@ -1,7 +1,7 @@
 ; Program name: Playfield and sprite
 ; Author: Mason Fisher
 ; Created: Febuary 12th, 2020
-; Modified: Febuary 12th, 2020
+; Modified: Febuary 19th, 2020
 ; Description: A playfield and a smilely!
 
 					processor 6502					; Tell DASM we are using 6502 instructions
@@ -30,7 +30,13 @@ NFrame:
 					lsr SWCHB
 					bcc start
 					VERTICAL_SYNC
-					ldx #21
+					ldx XPos ; 87 XPos is when the extra scanline appears
+					cpx #$87
+					bpl exsnln
+					ldx #20
+					jmp LVBlank
+
+exsnln:		ldx #19
 
 LVBlank:	sta WSYNC
 					dex
