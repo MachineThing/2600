@@ -74,12 +74,12 @@ SkipJoy:	lda XPos
 LVScan:		txa
 					sta Tempx
 					lda #$26
-					sta COLUPF
+					sta COLUPF ; Color of the playfield
 					lda Tempx
 					sta PF0
 					sta PF1
 					sta PF2
-					stx COLUBK
+					stx COLUBK ; Color of the background
 					sec
 					sbc YPos
 					cmp SpriteHeight				; If the SprightHeight is greater than the Y position
