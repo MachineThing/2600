@@ -69,7 +69,7 @@ SkipJoy:	lda XPos
 					sta WSYNC
 					sta HMOVE
 
-					ldx #192
+					ldx #214
 
 LVScan:		txa
 					sta Tempx
@@ -96,11 +96,8 @@ InSprite:	tay											; Transfer the A register's value to the Y register
 					dex
 					bne LVScan
 
-				; 43 lines of overscan, 86 xpos
-					cpx XPos
-					ldx #44
-					bpl LVOver
-					ldx #43
+				; 43 lines of overscan
+					ldx #22
 LVOver:		sta WSYNC
 					dex
 					bne LVOver
