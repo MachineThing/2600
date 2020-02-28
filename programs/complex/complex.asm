@@ -10,7 +10,7 @@
 					include "lib/macro.asm"	; 2600 macross
 					include "lib/xmacro.asm"; 2600 macros or the setHorizPos routine
 
-SpriteHeight	equ #10
+SpriteHeight	equ #5
 
 					seg.u Variables
 					org $80
@@ -24,7 +24,7 @@ ColorPtr			.word
 XPos					.byte
 YPos					.byte
 
-Tempx					.byte
+
 Tempa					.byte
 Bit2p0				.byte
 Colp0					.byte
@@ -39,11 +39,11 @@ start:		CLEAN_START
 					lda #>PlayfieldData
 					sta PFPtr+1
 					lda #<sprDat
-					lda SpritePtr
+					sta SpritePtr
 					lda #>sprDat
-					lda SpritePtr+1
+					sta SpritePtr+1
 					lda #<SprCol
-					lda ColorPtr
+					sta ColorPtr
 					lda #>SprCol
 					sta ColorPtr+1
 					lda #235
@@ -55,10 +55,11 @@ NFrame:		lsr SWCHB
 					bcc start
 					VERTICAL_SYNC
 					TIMER_SETUP 37
-					lda #$88
+					lda #$50
 					sta COLUBK
-					lda #$5b
+					lda #$fe
 					sta COLUPF
+
 					lda #$68
 					sta COLUP0
 					lda #1
@@ -110,7 +111,7 @@ NewPFSegment:
 					ldx PFCount
 
 KernelLoop:
-					lda #SpriteHeight
+					lda SpriteHeight
 					inc YP0
 					sbc YP0
 					bcs DoDraw
@@ -175,15 +176,15 @@ MoveJoy:	ldx YPos
 					lda #%00010000	; Player 0 up
 					bit SWCHA				; Test that bit
 					bne SkipUp			; Branch to SkipUp label if player is not pushing the joystick up
-					cpx #175
-					bcc SkipUp
+					cpx #254
+					bcs SkipUp
 					inx
 
 SkipUp:		lda #%00100000	; Player 0 down
 					bit SWCHA				; Test that bit
 					bne SkipDn			; Branch to SkipUp label if player is not pushing the joystick down
-					cpx #1
-					bcs SkipDn
+					cpx #175
+					bcc SkipDn
 					dex
 
 SkipDn:		stx YPos
@@ -191,19 +192,21 @@ SkipDn:		stx YPos
 					lda #%01000000	; Player 0 left
 					bit SWCHA				; Test that bit
 					bne SkipLt			; Branch to SkipUp label if player is not pushing the joystick left
-					cpx #254
+					cpx #1
 					bcc SkipLt
 					dex
 
 SkipLt:		lda #%10000000	; Player 0 right
 					bit SWCHA				; Test that bit
 					bne SkipJoy			; Branch to SkipUp label if player is not pushing the joystick right
-					cpx #1
-					bcc SkipJoy
+					cpx #$98
+					bcs SkipJoy
 					inx
 
 SkipJoy:	stx XPos
 					rts
+
+					align $100; make sure data doesn't cross page boundary
 
 PlayfieldData:
         	.byte 13,#%00000000,#%00000000,#%00000000
@@ -232,7 +235,8 @@ PlayfieldData:
 
 ; The sprite is flipped as that's how it works in the routine
 
-sprDat:		.byte #0        ; zero padding, also clears register
+sprDat:		.byte #0
+					.byte #0
         	.byte #%11111111
         	.byte #%10000001
         	.byte #%10111101
@@ -243,15 +247,14 @@ sprDat:		.byte #0        ; zero padding, also clears register
         	.byte #%11111111
 
 ; Sprite color data
-SprCol:		.byte #0        ; unused (for now)
-        	.byte #$90
-        	.byte #$92
-        	.byte #$94
-        	.byte #$96
-        	.byte #$98			; A friend picked this color :)
-        	.byte #$9A
-        	.byte #$9C
-        	.byte #$9E
+SprCol:		.byte #$c0
+        	.byte #$c2
+        	.byte #$c4
+        	.byte #$c6
+        	.byte #$c8			; A friend picked this color :)
+        	.byte #$cA
+        	.byte #$cC
+        	.byte #$cE
 
 ; Skip to address FFFC in the ROM, which is the end of a 4K cartridge
 					org $fffc
