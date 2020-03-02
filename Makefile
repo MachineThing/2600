@@ -10,3 +10,4 @@ main:
 	$(asmc) $(fold)setHorizPos/setHorizPos.asm $(flags)compiled/setHorizPos.bin
 	$(asmc) $(fold)joysticks/joysticks.asm $(flags)compiled/joysticks.bin
 	$(asmc) $(fold)complex/complex.asm $(flags)compiled/complex.bin
+	$(asmc) $(fold)scoreboard/scoreboard.asm $(flags)compiled/scoreboard.bin
