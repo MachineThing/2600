@@ -46,18 +46,18 @@ start:		CLEAN_START
 					sta ColorPtr
 					lda #>SprCol
 					sta ColorPtr+1
-					lda #235
+					lda #230
 					sta YPos
-					lda #39
+					lda #28
 					sta XPos
 
 NFrame:		lsr SWCHB
 					bcc start
 					VERTICAL_SYNC
 					TIMER_SETUP 37
-					lda #$50
+					lda #$90
 					sta COLUBK
-					lda #$fe
+					lda #$32
 					sta COLUPF
 
 					lda #$68
@@ -246,15 +246,15 @@ sprDat:		.byte #0
         	.byte #%10000001
         	.byte #%11111111
 
-; Sprite color data
-SprCol:		.byte #$c0
-        	.byte #$c2
-        	.byte #$c4
-        	.byte #$c6
-        	.byte #$c8			; A friend picked this color :)
-        	.byte #$cA
-        	.byte #$cC
-        	.byte #$cE
+; Sprite color data (A cyanish color pallete)
+SprCol:		.byte #$a0
+        	.byte #$a2
+        	.byte #$a4
+        	.byte #$a6
+        	.byte #$a8
+        	.byte #$aa
+        	.byte #$ac
+        	.byte #$ae
 
 ; Skip to address FFFC in the ROM, which is the end of a 4K cartridge
 					org $fffc
