@@ -28,8 +28,100 @@ start:		CLEAN_START
 					sta Score0
 					lda #$56
 					sta Score1
-					jmp start
-					
+
+NFrame:		VERTICAL_SYNC
+					TIMER_SETUP 37
+					lda Score0
+					ldx #0
+					jsr GetBitmap
+					lda Score1
+					ldx #5
+					jsr GetBitmap
+					TIMER_WAIT
+					TIMER_SETUP 192
+
+					lda #%00010010	; Score mode with a 2 pixel ball
+					sta CTRLPF
+					lda #$26
+					sta COLUP0
+					lda #$84
+					sta COLUP1
+
+					ldy #0
+
+ScanLoop:	sta WSYNC
+					tya
+					lsr
+					tax
+					lda FontBuf+0,x
+					sta PF1
+					SLEEP 28
+					lda FontBuf+5,x
+					sta PF1
+					iny
+					cpy #10
+					bcc ScanLoop
+
+; Clear the playfield
+
+					lda #0
+					sta WSYNC
+					sta PF1
+
+					lda #%00010100
+					sta CTRLPF
+
+					TIMER_WAIT
+					TIMER_SETUP 29
+					TIMER_WAIT
+					jmp NFrame
+
+GetBitmap:pha
+					and #$0f
+					sta Temp
+					asl
+					asl
+					adc Temp
+					tay
+					lda #5
+					sta Temp
+
+loop1:		lda DigitsBitmap,y
+					and #$0f
+					sta FontBuf,x
+					iny
+					inx
+					dec Temp
+					bne loop1
+
+					pla
+					lsr
+					lsr
+					lsr
+					lsr
+					sta Temp
+					asl
+					asl
+					adc Temp
+					tay
+					dex
+					dex
+					dex
+					dex
+					dex
+					lda #5
+					sta Temp
+
+loop2:		lda DigitsBitmap,y
+					and #$f0
+					ora FontBuf,x
+					sta FontBuf,x
+					iny
+					inx
+					dec Temp
+					bne loop2
+					rts
+
 					org $FF00
 
 ; Bitmap pattern for digits
