@@ -14,21 +14,21 @@ SpriteHeight	equ #5
 
 					seg.u Variables
 					org $80
-PFPtr					.word	; pointer to playfield data
-PFIndex				.byte	; offset into playfield array
-PFCount				.byte	; lines left in this playfield segment
+PFPtr			.word								; pointer to playfield data
+PFIndex		.byte								; offset into playfield array
+PFCount		.byte								; lines left in this playfield segment
 
-SpritePtr			.word
-ColorPtr			.word
+SpritePtr	.word
+ColorPtr	.word
 
-XPos					.byte
-YPos					.byte
+XPos			.byte
+YPos			.byte
 
 
-Tempa					.byte
-Bit2p0				.byte
-Colp0					.byte
-YP0						.byte
+Tempa			.byte
+Bit2p0		.byte
+Colp0			.byte
+YP0				.byte
 
 					seg Code
 					org $f000
@@ -46,28 +46,26 @@ start:		CLEAN_START
 					sta ColorPtr
 					lda #>SprCol
 					sta ColorPtr+1
-					lda #230
+					lda #230						; Starting Y position
 					sta YPos
-					lda #28
+					lda #28							; Starting X position
 					sta XPos
 
-NFrame:		lsr SWCHB
-					bcc start
+NFrame:		lsr SWCHB						; Reset switch
+					bcc start						; If the user hit the reset switch jump to the start label
 					VERTICAL_SYNC
 					TIMER_SETUP 37
-					lda #$90
-					sta COLUBK
-					lda #$32
-					sta COLUPF
+					lda #$90						; A dark shade of blue
+					sta COLUBK					; Background color
+					lda #$32						; A shade of reddish-orange
+					sta COLUPF					; Playfield color
 
-					lda #$68
-					sta COLUP0
 					lda #1
-					sta CTRLPF			; Set Symetric Playfield Mode to on
+					sta CTRLPF					; Set Symetric Playfield Mode to on
 					lda #0
 					sta PFIndex
 
-					lda YPos
+					lda YPos						; Load YPos variable to the A register
 					sta YP0
 					lda XPos
 					ldx #0
@@ -75,30 +73,30 @@ NFrame:		lsr SWCHB
 					sta WSYNC
 					sta HMOVE
 
-					TIMER_WAIT
+					TIMER_WAIT					; A macro that makes the TIA timer wait until it counts down to zero
 					lda #0
 					sta VBLANK
 
-					TIMER_SETUP 192
-					SLEEP 10
+					TIMER_SETUP 192			; Make TIA timer wait for 192 scanlines
 
 NewPFSegment:
+					; I don't know what this part of the code does really but it renders one part of the playfield if I'm correct
 					ldy PFIndex
-					lda (PFPtr),y
-					beq NoMoreSegs
-					sta PFCount
+					lda (PFPtr),y				; Get a byte from the PFPtr variable depending on the Y register
+					beq NoMoreSegs			; Jump to the "NoMoreSegs" label if there are no PF segments?
+					sta PFCount					; Store the A register to the PFCount label
 
-					iny
-					lda (PFPtr),y
-					tax
-					iny
-					lda (PFPtr),y
-					sta Tempa
-					iny
-					lda (PFPtr),y
-					iny
-					sty PFIndex
-					tay
+					iny									; Increment the Y register by 1
+					lda (PFPtr),y				; Same as line 85
+					tax									; Transfer the A register to the X register
+					iny									; Increment the Y register by 1
+					lda (PFPtr),y				; Same as line 85
+					sta Tempa						; Store A into a temporary variable
+					iny									; Increment the Y register by 1
+					lda (PFPtr),y				; Same as line 85
+					iny									; Increment the Y register by 1
+					sty PFIndex					; Store the Y register to the PFIndex variable
+					tay									; Transfer the A register to the Y register
 
 					sta WSYNC
 					stx PF0
