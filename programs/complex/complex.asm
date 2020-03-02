@@ -1,7 +1,7 @@
 ; Program name: Playfield and sprite
 ; Author: Mason Fisher
 ; Created: Febuary 12th, 2020
-; Modified: Febuary 19th, 2020
+; Modified: March 2nd, 2020
 ; Description: A playfield and a smilely!
 
 					processor 6502					; Tell DASM we are using 6502 instructions
@@ -99,12 +99,12 @@ NewPFSegment:
 					tay									; Transfer the A register to the Y register
 
 					sta WSYNC
-					stx PF0
-					lda Tempa
-					sta PF1
-					lda Bit2p0
-					sta GRP0
-					sty PF2
+					stx PF0							; Store the X register into the Playfield 0 controller
+					lda Tempa						; Load the Tempa variable into the A register
+					sta PF1							; Store the A register into the Playfield 1 controller
+					lda Bit2p0					; Load the Bit2p0 variable into the A register
+					sta GRP0						; Store the A register into the Player 1 sprite graphics
+					sty PF2							; Store the Y register into the Playfield 2 controller
 
 					ldx PFCount
 
