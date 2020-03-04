@@ -11,3 +11,4 @@ main:
 	$(asmc) $(fold)joysticks/joysticks.asm $(flags)compiled/joysticks.bin
 	$(asmc) $(fold)complex/complex.asm $(flags)compiled/complex.bin
 	$(asmc) $(fold)scoreboard/scoreboard.asm $(flags)compiled/scoreboard.bin
+	$(asmc) $(fold)breakoutclone/breakoutclone.asm $(flags)compiled/breakoutclone.bin
