@@ -23,6 +23,7 @@ Tempa			.byte
 Bit2p0		.byte
 Colp0			.byte
 YP0				.byte
+sclns			.byte
 
 					seg Code
 					org $f000
@@ -59,17 +60,23 @@ NFrame:		lsr SWCHB						; Reset switch
 					lda #0
 					sta VBLANK
 
+					ldx #0
+					stx sclns
+
 					TIMER_SETUP 192			; Make TIA timer wait for 192 scanlines
 
-NoMoreSegs
-					lda #0
-					sta COLUBK
+DrawScreen:
+					ldx INTIM
+
+					stx COLUBK
+
+					cpx #0
+					bne DrawScreen
+AftScnlns:
 
 					TIMER_WAIT
 
 					TIMER_SETUP 29
-					lda #2
-					sta VBLANK
 					jsr MoveJoy
 					TIMER_WAIT
 					jmp NFrame
