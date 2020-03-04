@@ -40,10 +40,6 @@ NFrame:		lsr SWCHB						; Reset switch
 					bcc start						; If the user hit the reset switch jump to the start label
 					VERTICAL_SYNC
 					TIMER_SETUP 37
-					lda #$00						; The darkest black in the palette
-					sta COLUBK					; Background color
-					lda #$32						; A shade of reddish-orange
-					sta COLUPF					; Playfield color
 
 					lda #1
 					sta CTRLPF					; Set Symetric Playfield Mode to on
