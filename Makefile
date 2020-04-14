@@ -1,6 +1,6 @@
 asmc=dasm
 fold=programs/
-flags=-f3 -v5 -o
+flags=-f3 -o
 main:
 	$(asmc) $(fold)starry/starry.asm $(flags)compiled/starry.bin
 	$(asmc) $(fold)rainbow/rainbow.asm $(flags)compiled/rainbow.bin
